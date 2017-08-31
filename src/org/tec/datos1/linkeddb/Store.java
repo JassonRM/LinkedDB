@@ -17,12 +17,20 @@ public class Store {
         return name;
     }
 
-//    public void print() {
-//        System.out.println(this.name);
-//    }
+    @Override
+    public String toString(){
+        return getName();
+    }
 
-    public void newDocument(){
-        Document document = new Document();
-        documents.append(document);
+    public void newDocument(Document document){
+        this.documents.append(document);
+    }
+
+    public CircularList getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(CircularList documents) {
+        this.documents = documents;
     }
 }

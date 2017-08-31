@@ -21,6 +21,32 @@ public class DoubleList<T>{
         }
     }
 
+    public boolean exists(String value) {
+        DoubleNode<T> temp = this.head;
+        while (temp != null){
+            if (temp.getValue().toString() == value){
+                return true;
+            }
+            else{
+                temp = temp.getNext();
+            }
+        }
+        return false;
+    }
+
+    public T search(String value) {
+        DoubleNode<T> temp = this.head;
+        while (temp != null){
+            if (temp.getValue().toString() == value){
+                return temp.getValue();
+            }
+            else{
+                temp = temp.getNext();
+            }
+        }
+        return null;
+    }
+
 //    public void print(){
 //        if (this.head == null){
 //            System.out.println("Lista vacia");
