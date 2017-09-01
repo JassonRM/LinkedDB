@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tec.datos1.linkeddb.NewDocumentDialogController">
+   <children>
+      <GridPane layoutX="33.0" layoutY="118.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="335.0" minWidth="10.0" prefWidth="280.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="280.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="159.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox prefHeight="57.0" prefWidth="245.0" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelButton" prefHeight="27.0" prefWidth="100.0" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#okButton" prefHeight="27.0" prefWidth="100.0" text="Ok" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+               </children>
+               <padding>
+                  <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
+               </padding>
+            </HBox>
+            <Label fx:id="newDocLabel" text="Add new document" GridPane.halignment="CENTER" />
+            <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+              <columns>
+                <TableColumn prefWidth="96.0" text="Name" />
+                <TableColumn prefWidth="54.0" text="Type" />
+                  <TableColumn prefWidth="104.0" text="Special type" />
+                  <TableColumn prefWidth="85.0" text="Foreign key" />
+                  <TableColumn prefWidth="70.0" text="Required" />
+                  <TableColumn prefWidth="150.0" text="Default value" />
+              </columns>
+            </TableView>
+            <Label text="Name for new document:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="30.0" right="15.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="nameTextfield" prefHeight="27.0" prefWidth="169.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="15.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <HBox spacing="100.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#newAtributeButton" text="New atribute" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#editAtributeButton" text="Edit atribute" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#deleteAtributeButton" text="Delete atribute" GridPane.rowIndex="2" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
+               </GridPane.margin>
+            </HBox>
+            <ImageView fitHeight="95.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@media/newDoc256.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="75.0" right="75.0" top="10.0" />
+               </GridPane.margin>
+            </ImageView>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Store {
     private String name;
-    private CircularList documents;
+    private CircularList documents = new CircularList();
     private File dir;
 
     public Store(String name){

@@ -3,11 +3,15 @@ package org.tec.datos1.linkeddb;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import org.tec.datos1.linkeddb.App;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.tec.datos1.linkeddb.App.database;
@@ -36,7 +40,7 @@ public class Controller {
 
         //Crea el dialogo para el nombre
         TextInputDialog dialog = new TextInputDialog("Name");
-        dialog.setGraphic(new ImageView(this.getClass().getResource("media/newStore.png").toString()));
+        dialog.setGraphic(new ImageView(this.getClass().getResource("media/newStore64.png").toString()));
         dialog.setTitle("New Store");
         dialog.setHeaderText("Add new store to database");
         dialog.setContentText("Name for new store:");
@@ -60,41 +64,25 @@ public class Controller {
         TreeItem<String> item = tree.getSelectionModel().getSelectedItem();
 
         // Click derecho
-        System.out.println(database.exists(item.getValue()));
         if(mouseEvent.getButton() == MouseButton.SECONDARY) {
+
             // Crea menu
             ContextMenu menuAlt = new ContextMenu();
             if(database.exists(item.getValue())){
+
                 //Boton new document
                 MenuItem newDocument = new MenuItem("New Document");
                 newDocument.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        System.out.println("Nuevo documento en " + item.getValue());
-                        TextInputDialog dialog = new TextInputDialog("Name");
-                        dialog.setGraphic(new ImageView(this.getClass().getResource("media/newStore.png").toString()));
-                        dialog.setTitle("New Document");
-                        dialog.setHeaderText("Add new document to " + item.getValue());
-                        dialog.setContentText("Name for new document:");
-
-                        Optional<String> nombre = dialog.showAndWait();
-
-                        //Crea el documento, lo agrega al store
-                        if (nombre.isPresent()) {
-                            Document document = new Document(nombre.get());
-                            Store store = (Store) database.search(item.getValue());
-                            store.newDocument(document);
-
-                            TreeItem<String> docLeaf = new TreeItem<String>(document.getName());
-                            item.getChildren().add(docLeaf);
-
-                        }
+                        NewDocumentDialog.newDialog(item.getValue(), tree);
                     }
                 });
                 menuAlt.getItems().addAll(newDocument);
 
             }
             else{
+
                 //Boton eliminar objetos
                 MenuItem deleteAll = new MenuItem("Delete all objects");
                 deleteAll.setOnAction(new EventHandler<ActionEvent>() {
