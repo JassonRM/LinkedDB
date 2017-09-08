@@ -43,7 +43,7 @@ public class NewDocumentDialogController {
 
     @FXML
     void newAtributeButton(ActionEvent event) {
-
+        NewAttribute.newDialog();
     }
 
     @FXML
@@ -66,5 +66,9 @@ public class NewDocumentDialogController {
 
     public void setTreeView(TreeView<String> treeView) {
         this.treeView = treeView;
+    }
+
+    public void newAttribute(String name, String type, String special, String foreign, boolean required, String defaultValue){
+        System.out.println(name);
     }
 }

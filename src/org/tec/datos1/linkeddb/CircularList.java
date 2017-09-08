@@ -5,18 +5,13 @@ public class CircularList<T>{
 
     public void append(T value){
         if (this.head == null){
-            this.head = new DoubleNode(value, null);
+            this.head = new DoubleNode(value, this.head);
         }
         else{
-            DoubleNode inicio = this.head;
-            DoubleNode nodo = this.head;
-            while (nodo.getNext() != inicio){
-                nodo = nodo.getNext();
-            }
-
-            nodo.setNext(new DoubleNode(value, nodo));
-            this.head.setPrev(nodo.getNext());
-
+            DoubleNode<T> tail = this.head.getPrev();
+            DoubleNode<T> nuevo = new DoubleNode<>(value, tail);
+            tail.setNext(nuevo);
+            nuevo.setNext(this.head);
         }
     }
 

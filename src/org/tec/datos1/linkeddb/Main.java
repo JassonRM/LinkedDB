@@ -7,9 +7,20 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private static Stage rootStage;
+
+    public static Stage getRootStage() {
+        return rootStage;
+    }
+
+    public static void setRootStage(Stage rootStage) {
+        Main.rootStage = rootStage;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("LinkedDB.fxml"));
+        setRootStage(primaryStage);
         primaryStage.setTitle("LinkedDB");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
