@@ -33,14 +33,14 @@
                </padding>
             </HBox>
             <Label fx:id="newDocLabel" text="Add new document" GridPane.halignment="CENTER" />
-            <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <TableView fx:id="attributeTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
               <columns>
-                <TableColumn prefWidth="96.0" text="Name" />
-                <TableColumn prefWidth="54.0" text="Type" />
-                  <TableColumn prefWidth="104.0" text="Special type" />
-                  <TableColumn prefWidth="85.0" text="Foreign key" />
-                  <TableColumn prefWidth="70.0" text="Required" />
-                  <TableColumn prefWidth="150.0" text="Default value" />
+                <TableColumn fx:id="nameCol" prefWidth="96.0" text="Name" />
+                <TableColumn fx:id="typeCol" prefWidth="54.0" text="Type" />
+                  <TableColumn fx:id="specialCol" prefWidth="104.0" text="Special type" />
+                  <TableColumn fx:id="foreignCol" prefWidth="85.0" text="Foreign key" />
+                  <TableColumn fx:id="requiredCol" prefWidth="70.0" text="Required" />
+                  <TableColumn fx:id="defaultCol" prefWidth="150.0" text="Default value" />
               </columns>
             </TableView>
             <Label text="Name for new document:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">

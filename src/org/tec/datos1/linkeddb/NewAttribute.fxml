@@ -51,7 +51,7 @@
                   <Insets left="30.0" right="15.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Default value:" textAlignment="RIGHT" GridPane.rowIndex="6">
+            <Label text="Default value:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="30.0" right="15.0" />
                </GridPane.margin>

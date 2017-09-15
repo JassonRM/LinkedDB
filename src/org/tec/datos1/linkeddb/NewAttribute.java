@@ -9,15 +9,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class NewAttribute {
-    private static Stage dialog;
+    private Stage dialog;
+    private FXMLLoader loader;
 
-    public static void newDialog(){
+    public NewAttribute(){
         Parent root;
-        dialog = new Stage();
-        dialog.initOwner(NewDocumentDialog.getDialog());
-        dialog.initModality(Modality.WINDOW_MODAL);
+        this.dialog = new Stage();
+        this.dialog.initOwner(NewDocumentDialog.getDialog());
+        this.dialog.initModality(Modality.WINDOW_MODAL);
         //Referencia el fxml
-        FXMLLoader loader = new FXMLLoader();
+        loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("NewAttribute.fxml"));
 
 
@@ -27,19 +28,31 @@ public class NewAttribute {
 
             //Carga la ventana
             Scene scene = new Scene(root, 600, 400);
-            dialog.setTitle("New Attribute");
-            dialog.setScene(scene);
-            dialog.setScene(scene);
-            dialog.setResizable(false);
+            this.dialog.setTitle("Attribute");
+            this.dialog.setScene(scene);
+            this.dialog.setScene(scene);
+            this.dialog.setResizable(false);
 
-            //Mantiene la ventana abierta
-            dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void cancel(){
+    public Attribute showAndWait(){
+        //Mantiene la ventana abierta
+        this.dialog.showAndWait();
+        NewAttributeController controller = loader.getController();
+        return controller.retrieve();
+    }
+
+    public void cancel(){
         dialog.close();
+    }
+
+    public void update(Attribute attribute) {
+        NewAttributeController controller = loader.getController();
+        controller.load(attribute);
+        this.dialog.showAndWait();
+        controller.update(attribute);
     }
 }

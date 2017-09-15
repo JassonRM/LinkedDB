@@ -46,6 +46,7 @@ public class NewDocumentDialog {
 
             //Mantiene la ventana abierta
             dialog.showAndWait();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,14 +3,13 @@ package org.tec.datos1.linkeddb;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import org.tec.datos1.linkeddb.App;
+import com.fasterxml.jackson.databind.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -53,7 +52,6 @@ public class Controller {
             App.database.append(store);
             TreeItem<String> storeLeaf = new TreeItem<String>(store.getName());
             root.getChildren().add(storeLeaf);
-
         }
     }
 
@@ -94,6 +92,7 @@ public class Controller {
 
                     }
                 });
+                menuAlt.getItems().addAll(deleteAll);
             }
             menuAlt.show(tree, mouseEvent.getScreenX(), mouseEvent.getScreenY());
         }

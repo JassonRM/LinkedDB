@@ -2,24 +2,19 @@ package org.tec.datos1.linkeddb;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 public class NewAttributeController {
+
+    private boolean confirm;
+
     @FXML
     private TextField foreignTextfield;
 
@@ -40,18 +35,42 @@ public class NewAttributeController {
 
     @FXML
     void cancelButton(ActionEvent event) {
-        NewAttribute.cancel();
+        Stage stage = (Stage) nameTextfield.getScene().getWindow();
+        stage.close();
+        confirm = false;
     }
 
     @FXML
     void okButton(ActionEvent event) {
-        NewDocumentDialog.getController().newAttribute(nameTextfield.getText(), typeBox.getValue(), specialBox.getValue(), foreignTextfield.getText(), requiredCheckbox.isSelected(), defaultTextfield.getText());
-        NewAttribute.cancel();
+        if (nameTextfield.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid entry");
+            alert.setHeaderText("Invalid name");
+            alert.setContentText("Name is a required field");
+
+            alert.showAndWait();
+        } else {
+            if (specialBox.getValue() == "Foreign key" && !foreignTextfield.getText().isEmpty() || specialBox.getValue() != "Foreign key"){ // Hay que validar la llave foranea
+                Stage stage = (Stage) nameTextfield.getScene().getWindow();
+                stage.close();
+                confirm = true;
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid entry");
+                alert.setHeaderText("Invalid foreign key");
+                alert.setContentText("The foreign key entry isn't valid, please try again");
+
+                alert.showAndWait();
+            }
+        }
+
     }
 
 
     @FXML
     public void initialize() {
+        confirm = false;
+
         typeBox.getItems().addAll("Integer", "Float", "String", "Date");
         typeBox.getSelectionModel().select("Integer");
 
@@ -69,7 +88,46 @@ public class NewAttributeController {
             }
         });
 
+        requiredCheckbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (requiredCheckbox.isSelected()) {
+                    defaultTextfield.setDisable(true);
+                }
+                else{
+                    defaultTextfield.setDisable(false);
+                }
+            }
+        });
+
         foreignTextfield.setDisable(true);
+
+    }
+
+    public Attribute retrieve(){
+        if(confirm) {
+            return new Attribute(nameTextfield.getText(), typeBox.getValue(), specialBox.getValue(), foreignTextfield.getText(), requiredCheckbox.isSelected(), defaultTextfield.getText());
+        }else {
+            return null;
+        }
+    }
+
+    public void load(Attribute attribute){
+        nameTextfield.setText(attribute.getName());
+        typeBox.getSelectionModel().select(attribute.getType());
+        specialBox.getSelectionModel().select(attribute.getSpecialKey());
+        foreignTextfield.setText(attribute.getForeignKey());
+        requiredCheckbox.setSelected(attribute.isRequired());
+        defaultTextfield.setText(attribute.getDefaultValue());
+    }
+
+    public void update(Attribute attribute){
+        attribute.setName(nameTextfield.getText());
+        attribute.setType(typeBox.getValue());
+        attribute.setSpecialKey(specialBox.getValue());
+        attribute.setForeignKey(foreignTextfield.getText());
+        attribute.setRequired(requiredCheckbox.isSelected());
+        attribute.setDefaultValue(defaultTextfield.getText());
     }
 
 

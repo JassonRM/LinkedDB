@@ -15,26 +15,4 @@ public class App {
     public static void start(){
     }
 
-
-
-    public static void newAtributeDialog(){
-        //Carga el fxml
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("NewAtributeDialog.fxml"));
-
-        try {
-            //Crea la nueva ventana
-            Scene scene = new Scene(loader.load(), 600, 400);
-            Stage dialog = new Stage();
-            dialog.setTitle("New Atribute");
-            dialog.setScene(scene);
-            dialog.setScene(scene);
-
-            //Mantiene la ventana abierta
-            dialog.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
