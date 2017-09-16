@@ -10,18 +10,14 @@ public class Store implements JSONprinter {
 
     public Store(String name){
         this.name = name;
-        this.dir = new File("/Users/Jai/Desktop/Linked DB/" + name); //Tiene que servir para multiples sistemas operativos
+        this.dir = new File(App.path + name); //Tiene que servir para multiples sistemas operativos
         this.dir.mkdirs();
         this.documents = new CircularList();
     }
 
     @Override
-    public HashMap<String, Object> toJSON() {
-        HashMap<String, Object> store = new HashMap<>();
-        store.put("name", this.name);
-        store.put("dir", this.dir.getPath());
-        store.put("documents", this.documents.toJSONArray());
-        return store;
+    public JSONStore toJSON() {
+        return new JSONStore(this.name, this.documents);
     }
 
     public String getName() {

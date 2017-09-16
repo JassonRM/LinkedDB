@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class App {
     public static DoubleList database = new DoubleList<Store>();
+    public static String path = "/Users/Jai/Desktop/Linked DB/";
 
     public static void start(){
     }

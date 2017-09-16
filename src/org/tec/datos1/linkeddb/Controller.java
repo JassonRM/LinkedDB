@@ -54,7 +54,7 @@ public class Controller {
             TreeItem<String> storeLeaf = new TreeItem<String>(store.getName());
             root.getChildren().add(storeLeaf);
             try {
-                mapper.writeValue(new File("/Users/Jai/Desktop/Linked DB/ejemplo.json"), App.database.toJSONArray());
+                mapper.writeValue(new File(App.path + "ejemplo.json"), App.database.toJSONArray());
             } catch (IOException e) {
                 e.printStackTrace();
             }

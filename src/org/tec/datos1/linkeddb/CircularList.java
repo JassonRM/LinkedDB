@@ -6,6 +6,7 @@ public class CircularList<T extends JSONprinter>{
     public void append(T value){
         if (this.head == null){
             this.head = new DoubleNode(value, this.head);
+            this.head.setNext(this.head);
         }
         else{
             DoubleNode<T> tail = this.head.getPrev();
