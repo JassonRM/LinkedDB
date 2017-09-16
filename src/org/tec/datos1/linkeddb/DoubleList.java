@@ -1,6 +1,6 @@
 package org.tec.datos1.linkeddb;
 
-public class DoubleList<T>{
+public class DoubleList<T extends JSONprinter>{
     private DoubleNode head = null;
     private DoubleNode tail = null;
 
@@ -47,20 +47,41 @@ public class DoubleList<T>{
         return null;
     }
 
-//    public void print(){
-//        if (this.head == null){
-//            System.out.println("Lista vacia");
-//        }
-//        else{
-//            DoubleNode nodo = this.head;
-//            while (nodo != null){
-//                nodo.getValue();
-//                nodo = nodo.getNext();
-//            }
-//        }
-//    }
+    public int length(){
+        DoubleNode<T> temp = this.head;
+        int length = 0;
+        while (temp != null){
+            length++;
+            temp = temp.getNext();
+        }
+    return length;
+    }
 
+    public Object[] toJSONArray(){
+        Object[] array = new Object[this.length()];
+        DoubleNode<T> temp = this.head;
+        int count = 0;
+        while (temp != null){
+            array[count] = temp.getValue().toJSON();
+            count++;
+            temp = temp.getNext();
+        }
+    return array;
+    }
 
+    public DoubleNode getHead() {
+        return head;
+    }
 
+    public void setHead(DoubleNode head) {
+        this.head = head;
+    }
 
+    public DoubleNode getTail() {
+        return tail;
+    }
+
+    public void setTail(DoubleNode tail) {
+        this.tail = tail;
+    }
 }

@@ -1,5 +1,6 @@
 package org.tec.datos1.linkeddb;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -7,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import com.fasterxml.jackson.databind.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import java.util.Optional;
 import static org.tec.datos1.linkeddb.App.database;
 
 public class Controller {
+    private ObjectMapper mapper = new ObjectMapper();
 
     // TreeView
     @FXML private TreeView<String> tree;
@@ -52,6 +53,11 @@ public class Controller {
             App.database.append(store);
             TreeItem<String> storeLeaf = new TreeItem<String>(store.getName());
             root.getChildren().add(storeLeaf);
+            try {
+                mapper.writeValue(new File("/Users/Jai/Desktop/Linked DB/ejemplo.json"), App.database.toJSONArray());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

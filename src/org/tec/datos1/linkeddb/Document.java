@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Document {
+public class Document implements JSONprinter{
     private String name;
     //    private HashMap<String, HashMap<String, String>> atributes; // No se si se ocupa
     private ObservableList<Attribute> attributes;
@@ -13,7 +13,11 @@ public class Document {
     public Document(String name, ObservableList<Attribute> attributes) {
         this.name = name;
         this.attributes = attributes;
-        
+    }
+
+    @Override
+    public String toJSON() {
+        return this.name;
     }
 
     public String getName() {
