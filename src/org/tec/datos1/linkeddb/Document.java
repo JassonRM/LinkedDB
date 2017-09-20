@@ -1,34 +1,134 @@
 package org.tec.datos1.linkeddb;
 
-import javafx.collections.ObservableList;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 
+/**
+ * Denota un documento perteneciente a un store dentro de la base de datos
+ */
 public class Document implements JSONprinter{
     private String name;
-    //    private HashMap<String, HashMap<String, String>> atributes; // No se si se ocupa
-    private ObservableList<Attribute> attributes;
+    private LinkedHashMap<String, LinkedHashMap<String, String>> objects;
+    private Attribute[] attributes;
 
-    public Document(String name, ObservableList<Attribute> attributes) {
+    /**
+     * Constructor que establece el nombre y la lista de atributos del objeto, ademas inicializa la lista de objetos
+     * @param name Nombre del documento
+     * @param attributes Lista con los atributos del objeto
+     */
+    public Document(String name, Object[] attributes) {
         this.name = name;
-        this.attributes = attributes;
+        this.attributes = (Attribute[]) attributes;
+        this.objects = new LinkedHashMap<String, LinkedHashMap<String, String>>();
     }
 
+    /**
+     * Constructor que recibe todos los datos de un archivo JSON
+     * @param name Nombre del documento
+     * @param attributes lista con los atributos del objeto
+     * @param objects Lista de los objetos contenidos en este documento
+     */
+    @JsonCreator
+    public Document(@JsonProperty("name") String name, @JsonProperty("attributes") Object[] attributes, @JsonProperty("objects") LinkedHashMap<String, LinkedHashMap<String, String>> objects) {
+        this.name = name;
+        this.attributes = new Attribute[attributes.length];
+        this.objects = objects;
+        int count = 0;
+        for(Object object: attributes){
+            LinkedHashMap<String, String> input = (LinkedHashMap<String, String>)  object;
+            this.attributes[count] = new Attribute(input);
+            count++;
+        }
+    }
+
+    /**
+     * Retorna solamente el nombre al llamar el metodo toJSON
+     * @return el nombre del documento
+     */
     @Override
     public String toJSON() {
         return this.name;
     }
 
+    /**
+     * Retorna un string que describe al documento
+     * @return el nombre del documento
+     */
+    @Override
+    public String toString(){
+        return this.name;
+    }
+
+    /**
+     * @return el nombre del documento
+     */
     public String getName() {
         return name;
     }
 
-    public ObservableList<Attribute> getAttributes() {
+    /**
+     * @return la lista de atributos
+     */
+    public Attribute[] getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(ObservableList<Attribute> attributes) {
+    /**
+     * @param attributes establece la lista de atributos
+     */
+    public void setAttributes(Attribute[] attributes) {
         this.attributes = attributes;
+    }
+
+    /**
+     * Se encarga de buscar un atributo por su nombre
+     * @param name nombre del atributo a buscar
+     * @return la instancia del atributo encontrado
+     */
+    public Attribute searchAttribute(String name){
+        for(Attribute attribute : attributes){
+            if (attribute.getName() == name){
+                return attribute;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Se encarga de buscar cual atributo es la llave primaria del documento
+     * @return la instancia del atributo de tipo especial llave primaria
+     */
+    public Attribute searchPrimaryKey(){
+        for(Attribute attribute : attributes){
+            if (attribute.getSpecialKey().equals("Primary key")){
+                return attribute;
+            }
+        }
+        System.out.println("No hay primaria");
+        return null;
+    }
+
+    /**
+     * Anade un objeto a la lista de objetos del documento
+     * @param object instancia del objeto que se desea anadir
+     */
+    public void addObject(LinkedHashMap<String, String> object){
+        objects.put(object.get(searchPrimaryKey().getName()), object);
+    }
+
+    /**
+     * @return la lista de objetos del documento
+     */
+    public LinkedHashMap<String, LinkedHashMap<String, String>> getObjects() {
+        return objects;
+    }
+
+    /**
+     * Elimina todos los objetos del documento
+     */
+    public void deleteAll() {
+        this.objects = new LinkedHashMap<String, LinkedHashMap<String, String>>();
     }
 }

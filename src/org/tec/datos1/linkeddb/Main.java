@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Esta clase carga la ventana principal de la aplicacion
+ */
 public class Main extends Application {
     private static Stage rootStage;
 
@@ -17,6 +20,11 @@ public class Main extends Application {
         Main.rootStage = rootStage;
     }
 
+    /**
+     * Carga la ventana principal
+     * @param primaryStage Stage principal
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("LinkedDB.fxml"));
@@ -29,6 +37,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        App.start();
     }
 }

@@ -8,10 +8,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Esta clase ejecuta la logica para la ventana de dialogo para la creacion de un nuevo atributo
+ */
 public class NewAttribute {
     private Stage dialog;
     private FXMLLoader loader;
 
+    /**
+     * Constructor que carga el archivo fxml y la ventana de dialogo
+     */
     public NewAttribute(){
         Parent root;
         this.dialog = new Stage();
@@ -38,6 +44,10 @@ public class NewAttribute {
         }
     }
 
+    /**
+     * Muestra la ventana de dialogo y espera hasta que se cierre para recuperar las entradas
+     * @return el resultado del metodo retrieve del controlador de la ventana
+     */
     public Attribute showAndWait(){
         //Mantiene la ventana abierta
         this.dialog.showAndWait();
@@ -45,10 +55,10 @@ public class NewAttribute {
         return controller.retrieve();
     }
 
-    public void cancel(){
-        dialog.close();
-    }
-
+    /**
+     * Carga los datos de un atributo para editarlos
+     * @param attribute atributo a ser editado
+     */
     public void update(Attribute attribute) {
         NewAttributeController controller = loader.getController();
         controller.load(attribute);
