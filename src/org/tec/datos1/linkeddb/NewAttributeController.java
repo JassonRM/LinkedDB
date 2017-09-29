@@ -217,4 +217,8 @@ public class NewAttributeController {
         alert.showAndWait();
     }
 
+    public static void resetKeys(){
+        primaryAssigned = false;
+        foreignAssigned = false;
+    }
 }

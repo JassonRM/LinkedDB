@@ -40,17 +40,13 @@ public class Attribute {
      * Constructor para la creacion de un nuevo atributo
      * @param input Diccionario de entrada con todas las propiedades del atributo mapeadas a una llave.
      */
-    public Attribute(LinkedHashMap<String, String> input) {
-        this.name = input.get("name");
-        this.type = input.get("type");
-        this.specialKey = input.get("specialKey");
-        this.foreignKey = input.get("foreignKey");
-        if (input.get("required") == "true"){
-            this.required = true;
-        }else{
-            this.required = false;
-        }
-        this.defaultValue = input.get("defaultValue");
+    public Attribute(LinkedHashMap<String, Object> input) {
+        this.name = (String) input.get("name");
+        this.type = (String) input.get("type");
+        this.specialKey = (String) input.get("specialKey");
+        this.foreignKey = (String) input.get("foreignKey");
+        this.required = (boolean) input.get("required");
+        this.defaultValue = (String) input.get("defaultValue");
     }
 
     /**

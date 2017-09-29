@@ -31,6 +31,8 @@ public class NewDocumentDialog {
      * @param commitButton Boton de commit de la ventana principal
      */
     public static void newDialog(String store, TreeView<String> treeView, Button commitButton){
+        NewAttributeController.resetKeys();
+
         Parent root;
         dialog = new Stage();
         dialog.initOwner(Main.getRootStage());

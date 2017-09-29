@@ -3,7 +3,10 @@ package org.tec.datos1.linkeddb;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Denota un documento perteneciente a un store dentro de la base de datos
@@ -37,7 +40,7 @@ public class Document implements JSONprinter{
         this.objects = objects;
         int count = 0;
         for(Object object: attributes){
-            LinkedHashMap<String, String> input = (LinkedHashMap<String, String>)  object;
+            LinkedHashMap<String, Object> input = (LinkedHashMap<String, Object>)  object;
             this.attributes[count] = new Attribute(input);
             count++;
         }
@@ -89,7 +92,7 @@ public class Document implements JSONprinter{
      */
     public Attribute searchAttribute(String name){
         for(Attribute attribute : attributes){
-            if (attribute.getName() == name){
+            if (attribute.getName().equals(name)){
                 return attribute;
             }
         }
@@ -131,4 +134,27 @@ public class Document implements JSONprinter{
     public void deleteAll() {
         this.objects = new LinkedHashMap<String, LinkedHashMap<String, String>>();
     }
+
+    public LinkedHashMap<String, String> delete(String id) {
+        if(objects.containsKey(id)){
+            LinkedHashMap<String, String> object = objects.get(id);
+            objects.remove(id);
+            return object;
+        } else {
+            return null;
+        }
+    }
+
+    public LinkedList<HashMap<String,String>> searchObject(String input){
+        LinkedList<HashMap<String, String>> result = new LinkedList<>();
+        for(Map.Entry<String, LinkedHashMap<String, String>> object: objects.entrySet()){
+            for(String attribute : object.getValue().values()){
+                if(attribute.equals(input)){
+                    result.add(object.getValue());
+                }
+            }
+        }
+        return result;
+    }
+
 }

@@ -16,12 +16,15 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
                   <MenuItem fx:id="newStoreButton" mnemonicParsing="false" onAction="#newStore" text="New store" />
+                  <MenuItem mnemonicParsing="false" onAction="#newDocument" text="New document" />
               <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#close" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#deleteObject" text="Delete by key" />
+                  <MenuItem mnemonicParsing="false" onAction="#deleteAll" text="Delete all objects" />
+                  <MenuItem mnemonicParsing="false" onAction="#updateObjects" text="Update objects" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -31,13 +34,13 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar layoutX="-2.0" layoutY="29.0" prefHeight="13.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <ToolBar layoutY="30.0" prefHeight="42.0" prefWidth="1037.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="243.0">
         <items>
             <Button mnemonicParsing="false" onAction="#newStore">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@media/newStore64.png" />
+                        <Image url="@media/newStore.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -46,7 +49,7 @@
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@media/newDoc64.png" />
+                        <Image url="@media/newDoc.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -58,15 +61,25 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TreeView fx:id="tree" layoutX="42.0" layoutY="77.0" onMouseClicked="#storeContext" prefHeight="654.0" prefWidth="316.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TreeView fx:id="tree" layoutX="42.0" layoutY="77.0" onMouseClicked="#treeMouseClicked" prefHeight="654.0" prefWidth="316.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="table" layoutX="-69.0" layoutY="42.0" prefHeight="654.0" prefWidth="954.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TableView fx:id="table" layoutX="-69.0" layoutY="42.0" onKeyReleased="#deleteKey" prefHeight="654.0" prefWidth="954.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </items>
       </SplitPane>
+      <ToolBar layoutX="1037.0" layoutY="30.0" prefHeight="42.0" prefWidth="243.0" AnchorPane.rightAnchor="0.0">
+         <items>
+            <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@media/search.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="searchBox" onAction="#search" prefHeight="27.0" prefWidth="200.0" />
+         </items>
+      </ToolBar>
    </children>
 </AnchorPane>

@@ -53,11 +53,11 @@
                   <Insets left="15.0" right="30.0" />
                </GridPane.margin>
             </TextField>
-            <HBox spacing="100.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <HBox spacing="93.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" onAction="#newAtributeButton" text="New atribute" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#editAtributeButton" text="Edit atribute" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#deleteAtributeButton" text="Delete atribute" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#newAtributeButton" text="New attribute" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#editAtributeButton" text="Edit attribute" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#deleteAtributeButton" text="Delete attribute" GridPane.rowIndex="2" />
                </children>
                <GridPane.margin>
                   <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
@@ -65,7 +65,7 @@
             </HBox>
             <ImageView fitHeight="95.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@media/newDoc256.png" />
+                  <Image url="@media/newDoc.png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" left="75.0" right="75.0" top="10.0" />

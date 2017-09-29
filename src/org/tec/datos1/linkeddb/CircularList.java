@@ -37,7 +37,7 @@ public class CircularList<T extends JSONprinter> implements Iterable<T>{
         DoubleNode<T> temp = this.head;
         if (temp != null){
             do {
-                if (temp.getValue().toString() == value) {
+                if (temp.getValue().toString().equals(value)) {
                     return temp.getValue();
                 } else {
                     temp = temp.getNext();

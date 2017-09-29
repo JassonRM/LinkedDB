@@ -39,7 +39,7 @@ public class DoubleList<T extends JSONprinter> implements Iterable<T>{
     public boolean exists(String value) {
         DoubleNode<T> temp = this.head;
         while (temp != null){
-            if (temp.getValue().toString() == value){
+            if (temp.getValue().toString().equals(value)){
                 return true;
             }
             else{
@@ -57,7 +57,7 @@ public class DoubleList<T extends JSONprinter> implements Iterable<T>{
     public T search(String value) {
         DoubleNode<T> temp = this.head;
         while (temp != null){
-            if (temp.getValue().toString() == value){
+            if (temp.getValue().toString().equals(value)){
                 return temp.getValue();
             }
             else{
