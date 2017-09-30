@@ -96,6 +96,15 @@ public class NewDocumentDialogController {
                 Store store = (Store) database.search(item.getValue());
                 store.newDocument(document);
 
+                for(Attribute attribute : attributes){
+                    if(attribute.getSpecialKey().equals("Foreign key")){
+                        String[] address = attribute.getForeignKey().split("/");
+                        Store foreignStore = (Store) App.database.search(address[0]);
+                        Document foreignDocument = (Document) foreignStore.getDocuments().search(address[1]);
+                        foreignDocument.addForeignKey(store.getName() + "/" + document.getName());
+                    }
+                }
+
                 TreeItem<String> docLeaf = new TreeItem<String>(document.getName());
                 item.getChildren().add(docLeaf);
                 item.setExpanded(true);

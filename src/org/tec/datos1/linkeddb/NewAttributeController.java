@@ -94,7 +94,7 @@ public class NewAttributeController {
                     alert.showAndWait();
                 } else{
                     String[] address = foreignTextfield.getText().split("/");
-                    if(App.database.exists(address[0])){ /// No entraaaaa
+                    if(App.database.exists(address[0])){
                         Store store = (Store) App.database.search(address[0]);
                         if(store.getDocuments().search(address[1]) != null) {
                             Document document = (Document) store.getDocuments().search(address[1]);
@@ -140,10 +140,15 @@ public class NewAttributeController {
         specialBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(specialBox.getValue() == "Foreign key"){
+                if(specialBox.getValue() == "Foreign key") {
                     foreignTextfield.setDisable(false);
                     foreignTextfield.setPromptText("Store/Document/Attribute");
+                    requiredCheckbox.setDisable(false);
+                }else if(specialBox.getValue() == "Primary key"){
+                    requiredCheckbox.setSelected(true);
+                    requiredCheckbox.setDisable(true);
                 }else{
+                    requiredCheckbox.setDisable(false);
                     foreignTextfield.setDisable(true);
                     foreignTextfield.setPromptText("");
                 }

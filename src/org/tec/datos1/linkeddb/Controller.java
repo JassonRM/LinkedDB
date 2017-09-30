@@ -84,26 +84,26 @@ public class Controller {
                 if(object != null){
                     table.getItems().remove(object);
                     commitButton.setDisable(false);
-                }else{
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Invalid key");
-                    alert.setHeaderText("Inexistent object");
-                    alert.setContentText("The key entered doesn't exists in this document");
-
-                    alert.showAndWait();
                 }
             }
         }
     }
 
+    /**
+     * Borra el elemento seleccionado del documento
+     * @param event Recibe un evento del teclado
+     */
     public void deleteKey(KeyEvent event){
        if(event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE){
            String key = openedDocument.searchPrimaryKey().getName();
            Map<String, String> object = table.getSelectionModel().getSelectedItem();
-           String id = object.get(key);
-           openedDocument.delete(id);
-           table.getItems().remove(object);
-           commitButton.setDisable(false);
+           if(object != null) {
+               String id = object.get(key);
+               if (openedDocument.delete(id) != null) {
+                   table.getItems().remove(object);
+                   commitButton.setDisable(false);
+               }
+           }
        }
     }
 
@@ -326,7 +326,12 @@ public class Controller {
      */
     @FXML
     protected void about(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About LinkedDB");
+        alert.setHeaderText("About LinkedDB Manager");
+        alert.setContentText("LinkedDB™ is the only database manager you will always need.\nFor more information or help you can download the Quick Start Guide from https://1drv.ms/w/s!AoIDa4jX5H52sWMVNW7JcXJ1B1PE");
 
+        alert.showAndWait();
     }
 
     /**
@@ -360,9 +365,10 @@ public class Controller {
         TreeItem<String> item = tree.getSelectionModel().getSelectedItem();
         Store store = (Store) database.search(item.getParent().getValue());
         Document document = (Document) store.getDocuments().search(item.getValue());
-        document.deleteAll();
-        table.getItems().clear();
-        commitButton.setDisable(false);
+        if(document.deleteAll()) {
+            table.getItems().clear();
+            commitButton.setDisable(false);
+        }
     }
 
     public void setContextMenu(ContextMenu contextMenu, double x, double y) {

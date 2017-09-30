@@ -102,7 +102,25 @@ public class NewObjectDialog {
                 }
 
                 if (attribute.getSpecialKey().equals("Foreign key")){
-                    System.out.println("llave foranea"); // Funcion que revisa si la llave es valida
+                    if (!document.checkForeignKey(input.getText())){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Invalid input");
+                        alert.setHeaderText("Foreign key doesn't exists");
+                        alert.setContentText("The value of the foreign key must match an object at the foreign key origin");
+
+                        alert.showAndWait();
+                        return false;
+                    }
+                }else if(attribute.getSpecialKey().equals("Primary key")){
+                    if(!document.searchObjectByAttribute(inputValue, document.searchPrimaryKey().getName()).isEmpty()){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Invalid input");
+                        alert.setHeaderText("Primary key already exists");
+                        alert.setContentText("The value of the primary key must be unique");
+
+                        alert.showAndWait();
+                        return false;
+                    }
                 }
 
                 if (attribute.getType().equals("Integer")) {
@@ -209,10 +227,9 @@ public class NewObjectDialog {
                         DatePicker input = (DatePicker) inputs.get(attribute.getName());
                         if(input.getValue() != null) {
                             inputValue = input.getValue().toString();
+                        }else{
+                            inputValue = "";
                         }
-                    }
-                    if(inputValue == null || inputValue.isEmpty()){
-                        inputValue = attribute.getDefaultValue();
                     }
                     object.put(attribute.getName(), inputValue);
                 }
@@ -235,7 +252,15 @@ public class NewObjectDialog {
                 String inputValue = input.getText();
 
                 if (attribute.getSpecialKey().equals("Foreign key")){
-                    System.out.println("llave foranea"); // Funcion que revisa si la llave es valida
+                    if (!document.checkForeignKey(input.getText())){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Invalid input");
+                        alert.setHeaderText("Foreign key doesn't exists");
+                        alert.setContentText("The value of the foreign key must match an object at the foreign key origin");
+
+                        alert.showAndWait();
+                        return false;
+                    }
                 }
 
                 if (attribute.getType().equals("Integer")) {

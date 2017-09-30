@@ -1,13 +1,7 @@
 package org.tec.datos1.linkeddb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +11,7 @@ import java.io.IOException;
  */
 public class App {
     public static DoubleList database = new DoubleList<Store>();
-    public static String path = "/Users/Jai/Desktop/Linked DB/";
+    public static String path = "/Users/Jai/Desktop/LinkedDB Data/";
 
     /**
      * Metodo encargado de cargar a memoria las lecturas de los archivo JSON

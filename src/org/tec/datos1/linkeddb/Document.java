@@ -2,6 +2,7 @@ package org.tec.datos1.linkeddb;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.scene.control.Alert;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ public class Document implements JSONprinter{
     private String name;
     private LinkedHashMap<String, LinkedHashMap<String, String>> objects;
     private Attribute[] attributes;
+    private LinkedList<String> foreignKeys;
 
     /**
      * Constructor que establece el nombre y la lista de atributos del objeto, ademas inicializa la lista de objetos
@@ -25,6 +27,7 @@ public class Document implements JSONprinter{
         this.name = name;
         this.attributes = (Attribute[]) attributes;
         this.objects = new LinkedHashMap<String, LinkedHashMap<String, String>>();
+        this.foreignKeys = new LinkedList<>();
     }
 
     /**
@@ -34,10 +37,11 @@ public class Document implements JSONprinter{
      * @param objects Lista de los objetos contenidos en este documento
      */
     @JsonCreator
-    public Document(@JsonProperty("name") String name, @JsonProperty("attributes") Object[] attributes, @JsonProperty("objects") LinkedHashMap<String, LinkedHashMap<String, String>> objects) {
+    public Document(@JsonProperty("name") String name, @JsonProperty("attributes") Object[] attributes, @JsonProperty("objects") LinkedHashMap<String, LinkedHashMap<String, String>> objects, @JsonProperty("foreignKeys") LinkedList<String> foreignKeys) {
         this.name = name;
         this.attributes = new Attribute[attributes.length];
         this.objects = objects;
+        this.foreignKeys = foreignKeys;
         int count = 0;
         for(Object object: attributes){
             LinkedHashMap<String, Object> input = (LinkedHashMap<String, Object>)  object;
@@ -114,6 +118,20 @@ public class Document implements JSONprinter{
     }
 
     /**
+     * Se encarga de buscar cual atributo es la llave foranea del documento
+     * @return la instancia del atributo de tipo especial llave primaria
+     */
+    public Attribute searchForeignKey(){
+        for(Attribute attribute : attributes){
+            if (attribute.getSpecialKey().equals("Foreign key")){
+                return attribute;
+            }
+        }
+        System.out.println("No hay foranea");
+        return null;
+    }
+
+    /**
      * Anade un objeto a la lista de objetos del documento
      * @param object instancia del objeto que se desea anadir
      */
@@ -131,18 +149,64 @@ public class Document implements JSONprinter{
     /**
      * Elimina todos los objetos del documento
      */
-    public void deleteAll() {
+    public boolean deleteAll() {
+        if(!foreignKeys.isEmpty()){
+            for(String key: foreignKeys){
+                String[] keyAddress = key.split("/");
+                Store store = (Store) App.database.search(keyAddress[0]);
+                Document document = (Document) store.getDocuments().search(keyAddress[1]);
+                String referencedAttribute = document.searchForeignKey().getForeignKey().split("/")[2];
+                for(LinkedHashMap<String, String> object: objects.values()){
+                    if(!document.searchObjectByAttribute(object.get(referencedAttribute), document.searchForeignKey().getName()).isEmpty()){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Failure to delete");
+                        alert.setHeaderText("Objects referenced");
+                        alert.setContentText("At least one object in the document is referenced by another document. Delete all references before trying to delete");
+
+                        alert.showAndWait();
+                        return false;
+                    }
+                }
+            }
+        }
         this.objects = new LinkedHashMap<String, LinkedHashMap<String, String>>();
+        return true;
     }
 
     public LinkedHashMap<String, String> delete(String id) {
         if(objects.containsKey(id)){
+
             LinkedHashMap<String, String> object = objects.get(id);
+
+            if(!foreignKeys.isEmpty()){
+                for(String key: foreignKeys){
+                    String[] keyAddress = key.split("/");
+                    Store store = (Store) App.database.search(keyAddress[0]);
+                    Document document = (Document) store.getDocuments().search(keyAddress[1]);
+                    String referencedAttribute = document.searchForeignKey().getForeignKey().split("/")[2];
+
+                    if(!document.searchObjectByAttribute(object.get(referencedAttribute), document.searchForeignKey().getName()).isEmpty()){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Failure to delete");
+                        alert.setHeaderText("Object referenced");
+                        alert.setContentText("The object is referenced by at least another document. Delete all references before trying to delete");
+
+                        alert.showAndWait();
+                        return null;
+                    }
+                }
+            }
             objects.remove(id);
             return object;
         } else {
-            return null;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid key");
+            alert.setHeaderText("Inexistent object");
+            alert.setContentText("The key entered doesn't exists in this document");
+
+            alert.showAndWait();
         }
+        return null;
     }
 
     public LinkedList<HashMap<String,String>> searchObject(String input){
@@ -157,4 +221,33 @@ public class Document implements JSONprinter{
         return result;
     }
 
+    public void addForeignKey(String key){
+        foreignKeys.add(key);
+    }
+
+    public LinkedList<String> getForeignKeys() {
+        return foreignKeys;
+    }
+
+    public boolean checkForeignKey(String value) {
+        Attribute foreignKey = searchForeignKey();
+        String[] foreignKeyAddress = foreignKey.getForeignKey().split("/");
+        Store store = (Store) App.database.search(foreignKeyAddress[0]);
+        Document document = (Document) store.getDocuments().search(foreignKeyAddress[1]);
+        if (document.searchObjectByAttribute(value, foreignKeyAddress[2]).isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public LinkedList<HashMap<String, String>> searchObjectByAttribute(String value, String attribute) {
+        LinkedList<HashMap<String, String>> result = new LinkedList<>();
+        for(LinkedHashMap<String, String> object: objects.values()){
+            if(object.get(attribute).equals(value)){
+                result.add(object);
+            }
+        }
+        return result;
+    }
 }
