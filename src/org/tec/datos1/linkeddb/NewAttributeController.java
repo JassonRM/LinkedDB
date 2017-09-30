@@ -226,4 +226,8 @@ public class NewAttributeController {
         primaryAssigned = false;
         foreignAssigned = false;
     }
+
+    public static boolean isPrimaryAssigned() {
+        return primaryAssigned;
+    }
 }

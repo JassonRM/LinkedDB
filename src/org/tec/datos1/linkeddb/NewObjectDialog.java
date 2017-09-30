@@ -251,6 +251,24 @@ public class NewObjectDialog {
                 TextField input = (TextField) inputs.get(attribute.getName());
                 String inputValue = input.getText();
 
+                if(!document.getForeignKeys().isEmpty()){
+                    for(String key: document.getForeignKeys()){
+                        String[] keyAddress = key.split("/");
+                        Store foreignStore = (Store) App.database.search(keyAddress[0]);
+                        Document foreignDocument = (Document) foreignStore.getDocuments().search(keyAddress[1]);
+                        String referencedAttribute = foreignDocument.searchForeignKey().getForeignKey().split("/")[2];
+
+                        if(referencedAttribute.equals(attribute.getName()) && !inputValue.isEmpty()){
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Failure to edit");
+                            alert.setHeaderText("Objects referenced");
+                            alert.setContentText("The attribute edited is referenced by another document");
+
+                            alert.showAndWait();
+                            return false;
+                        }
+                    }
+                }
                 if (attribute.getSpecialKey().equals("Foreign key")){
                     if (!document.checkForeignKey(input.getText())){
                         Alert alert = new Alert(Alert.AlertType.ERROR);

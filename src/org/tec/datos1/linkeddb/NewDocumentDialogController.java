@@ -90,8 +90,14 @@ public class NewDocumentDialogController {
                 alert.setContentText("At least one attribute is required");
 
                 alert.showAndWait();
-            }
-            else {
+            }else if(!NewAttributeController.isPrimaryAssigned()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid entry");
+                alert.setHeaderText("Inexistent primary key");
+                alert.setContentText("There must exist a primary key in the document");
+
+                alert.showAndWait();
+            } else {
                 Document document = new Document(nombre, attributes.toArray(new Attribute[0]));
                 Store store = (Store) database.search(item.getValue());
                 store.newDocument(document);
@@ -111,8 +117,7 @@ public class NewDocumentDialogController {
                 commitButton.setDisable(false);
                 NewDocumentDialog.cancel();
             }
-        }
-        else{
+        } else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid entry");
             alert.setHeaderText("Invalid name");
